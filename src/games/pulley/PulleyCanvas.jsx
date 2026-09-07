@@ -46,7 +46,7 @@ export default function PulleyCanvas() {
       let liftOffset = 0
       if (liftRef.current.active) {
         const t = Math.min((performance.now() - liftRef.current.start) / 2000, 1)
-        liftOffset = 60 * t
+        liftOffset = 60 * (1 - Math.pow(1 - t, 3))
       }
 
       const movableY = Math.min(height - 70, BEAM_Y + 150) - liftOffset
@@ -87,18 +87,34 @@ export default function PulleyCanvas() {
       ctx.restore()
       drawLabel(ctx, `${mass} kg`, centerX, loadY + 16, { color: '#05080f', align: 'center', font: 'bold 11px "Space Mono", monospace' })
 
+      // A force map makes the direction and magnitude trade-off visible at a glance.
+      const forceArrowY = loadY + 16
+      drawArrow(ctx, centerX - 42, forceArrowY - 4, centerX - 42, forceArrowY + 48, '#ff6b35', 2)
+      drawLabel(ctx, `weight ${W.toFixed(0)} N`, centerX - 50, forceArrowY + 60, { color: '#ff6b35', align: 'center', font: '10px "Space Mono", monospace' })
+      const liftForce = n * F
+      drawArrow(ctx, centerX + 42, forceArrowY + 48, centerX + 42, forceArrowY - 4, '#00e5ff', 2)
+      drawLabel(ctx, `lift ${liftForce.toFixed(0)} N`, centerX + 50, forceArrowY + 60, { color: '#00e5ff', align: 'center', font: '10px "Space Mono", monospace' })
+
+      // Small upward arrows show the tension contributed by each supporting rope segment.
+      const tensionY = movableY + 12
+      anchorXs.forEach((x) => {
+        const arrowX = x + (centerX - x) * 0.72
+        drawArrow(ctx, arrowX, tensionY + 18, arrowX, tensionY + 3, 'rgba(127,255,0,0.85)', 1.5)
+      })
+      drawLabel(ctx, `${n} × ${F.toFixed(0)} N tension`, centerX, movableY - 25, { color: '#7fff00', align: 'center', font: '10px "Space Mono", monospace' })
+
       // Effort rope, exiting from the last anchor down to a hand/effort marker
       const effortX = anchorXs[anchorXs.length - 1]
       const handY = height - 30
       drawArrow(ctx, effortX, BEAM_Y + 2, effortX, handY, '#7fff00', 2)
-      drawLabel(ctx, `F = W/n`, effortX + 10, (BEAM_Y + handY) / 2, { color: '#7fff00', align: 'left' })
+      drawLabel(ctx, `pull ↓  F = ${F.toFixed(0)} N`, effortX + 10, (BEAM_Y + handY) / 2, { color: '#7fff00', align: 'left' })
       if (effortForce !== '' && !Number.isNaN(Number(effortForce))) {
         drawLabel(ctx, `You: ${Number(effortForce).toFixed(0)} N`, effortX + 10, handY - 12, { color: '#dce8ff', align: 'left' })
       }
 
       // Labels
       drawLabel(ctx, `MA = n = ${n}`, 24, height - 40, { color: '#00e5ff', align: 'left' })
-      drawLabel(ctx, `W = ${W.toFixed(0)} N`, 24, height - 22, { color: '#ff6b35', align: 'left' })
+      drawLabel(ctx, `force saved: ${(W - F).toFixed(0)} N`, 24, height - 22, { color: '#ff6b35', align: 'left' })
     }
 
     const loop = () => {

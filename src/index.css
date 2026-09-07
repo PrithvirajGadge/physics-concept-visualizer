@@ -10,7 +10,7 @@
   --accent2: #ff6b35;
   --accent3: #7fff00;
   --text: #dce8ff;
-  --muted: #3d5070;
+  --muted: #71819d;
   --success: #00ff88;
   --fail: #ff3355;
 }
@@ -31,6 +31,7 @@ body {
   color: var(--text);
   font-family: 'Space Mono', monospace;
   position: relative;
+  line-height: 1.5;
   overflow-x: hidden;
 }
 
@@ -45,10 +46,23 @@ body::before {
   z-index: 0;
 }
 
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% -12%, rgba(0, 229, 255, 0.12), transparent 34%), radial-gradient(circle at 92% 32%, rgba(127, 255, 0, 0.055), transparent 25%);
+  z-index: 0;
+}
+
 #root {
   position: relative;
   z-index: 1;
 }
+
+button, a, input { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
 
 ::selection {
   background: var(--accent);
@@ -120,4 +134,11 @@ input[type='range']::-moz-range-thumb {
 
 .animate-fade-slide-up {
   animation: fadeSlideUp 0.35s ease forwards;
+}
+
+@keyframes float { 50% { transform: translateY(-5px); } }
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
 }

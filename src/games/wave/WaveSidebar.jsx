@@ -29,8 +29,12 @@ export default function WaveSidebar() {
 
   return (
     <Sidebar>
+      <div className="rounded-sm border border-accent3/25 bg-accent3/5 p-3">
+        <p className="text-[10px] font-orbitron tracking-[0.14em] uppercase text-accent3">Wave controls</p>
+        <p className="mt-1 text-[11px] leading-relaxed text-muted">Shape the signals, then read the resulting pattern in the viewport.</p>
+      </div>
       <div>
-        <PanelTitle>Presets</PanelTitle>
+        <PanelTitle>Quick experiments</PanelTitle>
         <div className="flex flex-col gap-1.5">
           {WAVE_LEVELS.map((preset) => (
             <button
@@ -45,7 +49,9 @@ export default function WaveSidebar() {
         </div>
       </div>
 
-      <div className="flex gap-1 bg-surface2 border border-muted/20 rounded-sm p-1">
+      <div>
+        <PanelTitle>Wave type</PanelTitle>
+        <div className="flex gap-1 bg-surface2 border border-muted/20 rounded-sm p-1">
         {MODES.map((m) => (
           <button
             key={m.id}
@@ -56,10 +62,11 @@ export default function WaveSidebar() {
             {m.label}
           </button>
         ))}
+        </div>
       </div>
 
       <div>
-        <PanelTitle accentColor="var(--accent)">Wave 1</PanelTitle>
+        <PanelTitle accentColor="var(--accent)">Signal A · cyan</PanelTitle>
         <div className="flex flex-col gap-3">
           <SliderInput label="Amplitude" unit="m" value={A1} min={0.1} max={3} step={0.1} onChange={setA1} />
           <SliderInput label="Frequency" unit="Hz" value={f1} min={0.1} max={5} step={0.1} onChange={setF1} />
@@ -69,7 +76,7 @@ export default function WaveSidebar() {
 
       {mode !== 'single' && (
         <div>
-          <PanelTitle accentColor="var(--accent2)">Wave 2</PanelTitle>
+          <PanelTitle accentColor="var(--accent2)">Signal B · orange</PanelTitle>
           <div className="flex flex-col gap-3">
             <SliderInput label="Amplitude" unit="m" value={A2} min={0.1} max={3} step={0.1} onChange={setA2} />
             <SliderInput label="Frequency" unit="Hz" value={f2} min={0.1} max={5} step={0.1} onChange={setF2} />
@@ -80,25 +87,25 @@ export default function WaveSidebar() {
       )}
 
       <div>
-        <PanelTitle>Display</PanelTitle>
+        <PanelTitle>Layers</PanelTitle>
         <div className="flex flex-col gap-2 text-xs font-mono">
           <label className="flex items-center gap-2 text-muted">
             <input type="checkbox" checked={showWave2} onChange={toggleShowWave2} disabled={mode === 'single'} />
-            Show Wave 2
+            Show signal B
           </label>
           <label className="flex items-center gap-2 text-muted">
             <input type="checkbox" checked={showResultant} onChange={toggleShowResultant} disabled={mode === 'single'} />
-            Show Resultant
+            Show combined wave
           </label>
           <label className="flex items-center gap-2 text-muted">
             <input type="checkbox" checked={showNodes} onChange={toggleShowNodes} disabled={mode !== 'standing'} />
-            Show Nodes
+            Mark nodes & antinodes
           </label>
         </div>
       </div>
 
-      <Button onClick={togglePaused} variant="secondary">
-        {paused ? 'Resume' : 'Pause'} (space)
+      <Button onClick={togglePaused} variant="secondary" className="w-full">
+        {paused ? 'Resume motion' : 'Pause motion'} (space)
       </Button>
     </Sidebar>
   )

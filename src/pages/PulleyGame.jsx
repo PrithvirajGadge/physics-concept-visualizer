@@ -14,7 +14,7 @@ function PulleyInfoPanel() {
   const oneToOneForce = W
 
   return (
-    <div className="bg-surface border border-muted/20 rounded-sm p-5 flex flex-col gap-5 overflow-y-auto">
+    <div className="h-full bg-surface border border-muted/20 rounded-sm p-5 flex flex-col gap-5 overflow-y-auto">
       <div>
         <PanelTitle accentColor="var(--accent3)">Live formula</PanelTitle>
         <div className="bg-surface2 border border-accent3/30 rounded-sm px-4 py-3 font-mono text-sm">
