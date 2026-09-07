@@ -21,8 +21,12 @@ function WaveInfoPanel() {
   const interference = classifyInterference(phase2)
 
   return (
-    <div className="bg-surface border border-muted/20 rounded-sm p-5 flex flex-col gap-4 overflow-y-auto">
-      <PanelTitle accentColor="var(--accent3)">Live properties</PanelTitle>
+    <div className="h-full bg-surface border border-muted/20 rounded-sm p-5 flex flex-col gap-4 overflow-y-auto">
+      <div className="rounded-sm border border-accent3/25 bg-accent3/5 px-3 py-2.5">
+        <span className="text-[10px] font-orbitron tracking-[0.14em] uppercase text-accent3">Wave monitor</span>
+        <p className="mt-1 text-xs text-text/90">{mode === 'single' ? 'One travelling wave' : mode === 'standing' ? 'Opposing waves form a standing pattern' : 'Two waves are superposing'}</p>
+      </div>
+      <PanelTitle accentColor="var(--accent3)">Calculated live</PanelTitle>
       <div className="grid grid-cols-2 gap-2">
         <StatBox label="Wave speed v = f·λ" value={v.toFixed(2)} unit="m/s" />
         <StatBox label="Period T = 1/f" value={T.toFixed(2)} unit="s" />
@@ -38,6 +42,7 @@ function WaveInfoPanel() {
           >
             {interference}
           </div>
+          <p className="mt-2 text-[11px] leading-relaxed text-muted">Phase offset: <span className="text-text">{phase2.toFixed(0)}°</span>. Adjust it to watch the resultant change in real time.</p>
         </div>
       )}
     </div>

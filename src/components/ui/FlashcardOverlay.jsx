@@ -1,3 +1,4 @@
+import { X } from 'lucide-react'
 import Button from './Button.jsx'
 
 // content shape: { title, badge, sections: [{ type, ... }] }
@@ -55,16 +56,20 @@ export default function FlashcardOverlay({ isOpen, onClose, content }) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300"
-      style={{ background: 'rgba(5,8,15,0.75)', backdropFilter: 'blur(6px)' }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="concept-title"
+      style={{ background: 'rgba(5,8,15,0.78)', backdropFilter: 'blur(10px)' }}
     >
-      <div className="w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-surface border border-accent/30 rounded-sm animate-fade-slide-up">
+      <div className="w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-surface border border-accent/30 rounded-sm animate-fade-slide-up shadow-2xl">
         <div className="p-6 border-b border-muted/20 flex items-center justify-between">
           <div>
             {content.badge && (
               <span className="text-[10px] font-orbitron tracking-[0.12em] text-accent uppercase">{content.badge}</span>
             )}
-            <h2 className="font-orbitron text-xl text-text mt-1">{content.title}</h2>
+            <h2 id="concept-title" className="font-orbitron text-xl text-text mt-1">{content.title}</h2>
           </div>
+          <button onClick={onClose} aria-label="Close concept guide" className="rounded-sm p-2 text-muted hover:bg-surface2 hover:text-text transition-colors"><X size={18} /></button>
         </div>
         <div className="p-6 flex flex-col gap-5">
           {content.sections.map((section, i) => (

@@ -95,14 +95,16 @@ export default function LevelCard({ icon, title, description, conceptTag, diffic
   }, [previewKind])
 
   return (
-    <div
+    <button
       onClick={() => navigate(route)}
-      className="group cursor-pointer bg-surface border border-muted/25 rounded-sm overflow-hidden
-        transition-all duration-200 hover:border-accent/60 hover:-translate-y-1"
+      className="group text-left w-full bg-surface border border-muted/25 rounded-sm overflow-hidden
+        transition-all duration-200 hover:border-[var(--card-accent)] hover:-translate-y-1 hover:shadow-lg focus-visible:outline-accent"
       style={{ '--card-accent': accentColor }}
+      aria-label={`Open ${title} lab`}
     >
-      <div className="h-32 border-b border-muted/20">
+      <div className="h-36 border-b border-muted/20 relative">
         <canvas ref={canvasRef} className="w-full h-full" />
+        <span className="absolute top-3 left-3 rounded-sm bg-bg/70 border border-muted/30 px-2 py-1 text-[9px] font-orbitron tracking-widest text-text backdrop-blur-sm">LIVE SIMULATION</span>
       </div>
       <div className="p-5 flex flex-col gap-3">
         <div className="flex items-center justify-between">
@@ -114,8 +116,8 @@ export default function LevelCard({ icon, title, description, conceptTag, diffic
             {conceptTag}
           </span>
         </div>
-        <h3 className="font-orbitron text-lg text-text">{title}</h3>
-        <p className="text-sm text-muted leading-relaxed">{description}</p>
+        <h3 className="font-orbitron text-lg text-text group-hover:text-[var(--card-accent)] transition-colors">{title}</h3>
+        <p className="text-xs text-muted leading-relaxed min-h-[60px]">{description}</p>
         <div className="flex items-center justify-between pt-2">
           <span className="text-[11px] font-mono text-muted">{difficulty}</span>
           <span
@@ -126,6 +128,6 @@ export default function LevelCard({ icon, title, description, conceptTag, diffic
           </span>
         </div>
       </div>
-    </div>
+    </button>
   )
 }
